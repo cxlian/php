@@ -8,27 +8,27 @@
 </head>
 <style>
     *{margin:0;padding:0}
-    .header{height:40px;line-height:40px;text-align:center;background-color:#a9a9a9;color:#fff;font-size:16px}
+    .header{height:40px;line-height:40px;text-align:center;background-color:#a9a9a9;color:#fff;font-size:16px;}
     input[type=text]{width:76.4%;height:33px;border:1px solid #ccc;margin-left:1%;margin-top:10px;margin-bottom:2px;padding-left: 10px;}
-    input[type=submit]{width:17%;height:34px}
+    button{width:17%;height:34px}
     .all-list{width:92%;margin:0 4%}
     .all-list li{height:2rem;line-height:2rem;padding:0 10px;list-style:none;margin:.4rem 0;background:#eee;border-radius:4px}
     .all-list li i{font-size:12px;font-style:normal;color:#999}
-
+    .all-list li a{font-size: 12px;}
 </style>
 <body>
 <div class="header">愿望清单</div>
-<form action="insert.php" method="post">
-    <input type="text" placeholder="请输入项目" name="title"/>
-    <input type="submit" />
+
+<form>
+    <input id="title" type="text" placeholder="请输入项目" name="title"/>
+    <button id="btn-insert">保存</button>
 </form>
-<div class="all-list" id="list">
+<div class="all-list" id="list"><ul></ul>
 </div>
-<div id="dv"></div>
 </body>
 <script>
     $(function(){
-        //显示
+        //查看
             $.ajax({
                 type: "get",
                 url: "test.php",
@@ -37,15 +37,17 @@
                     var myjson=eval(data);
                     var str="";
                     for(var i=0;i<myjson.length;i++){
-                        str +=" <ul>";
-                        str +="<li>"+(i+1)+"."+myjson[i].title+"<i>";
-                        str +="&nbsp;&nbsp;添加时间："+myjson[i].time+"</i></li>";
-                        str +="</ul>";
+                        str +="<li>"+(myjson.length-i)+"."+myjson[i].title+"<i>";
+                        str +="&nbsp;&nbsp;添加时间："+myjson[i].time+"&nbsp;&nbsp;&nbsp;&nbsp;</i><a href='delete.php?c="+myjson[i].id+"'>删除</a></li>";
                     }
-                    $("#list").append(str);
+                    $("#list ul").append(str);
                 }
             });
-
+        //插入
+        $("#btn-insert").click(function(){
+            var title=$("#title").val();
+            $.post("insert.php",{title:title},function(){alert("插入成功")})
+        });
     })
 </script>
 </html>

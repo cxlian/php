@@ -18,7 +18,7 @@ if ($conn->connect_error) {
     die("连接失败: " . $conn->connect_error);
 }
 
-$sql = "SELECT id, title, time FROM list";
+$sql = "SELECT id, title, time FROM list order by id desc";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
