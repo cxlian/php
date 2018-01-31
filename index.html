@@ -28,6 +28,9 @@
 </body>
 <script>
     $(function(){
+        function refresh(){
+            window.location.reload();//强制刷新
+        }
         //查看
             $.ajax({
                 type: "get",
@@ -38,7 +41,7 @@
                     var str="";
                     for(var i=0;i<myjson.length;i++){
                         str +="<li>"+(myjson.length-i)+"."+myjson[i].title+"<i>";
-                        str +="&nbsp;&nbsp;添加时间："+myjson[i].time+"&nbsp;&nbsp;&nbsp;&nbsp;</i><a href='delete.php?c="+myjson[i].id+"'>删除</a></li>";
+                        str +="&nbsp;&nbsp;添加时间："+myjson[i].time+"&nbsp;&nbsp;&nbsp;&nbsp;</i><a class='load' href='javascript:;' data-id="+myjson[i].id+"><b></b>删除</a></li>";
                     }
                     $("#list ul").append(str);
                 }
@@ -48,6 +51,15 @@
             var title=$("#title").val();
             $.post("insert.php",{title:title},function(){alert("插入成功")})
         });
-    })
+        $(".all-list").on("click",'.load',function(){
+            var a = window.confirm("确定要删除本条清单吗？");
+            if(a==true)
+            {
+                var id=$(this).data().id;
+                $.post("delete.php",{id:id},function(){alert("删除成功");refresh();})
+            }
+        });
+
+    });
 </script>
 </html>
