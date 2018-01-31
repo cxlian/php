@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN">
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>愿望清单</title>
+    <script src="jquery-2.1.4.js"></script>
+</head>
+<style>
+    *{margin:0;padding:0}
+    .header{height:40px;line-height:40px;text-align:center;background-color:#a9a9a9;color:#fff;font-size:16px}
+    input[type=text]{width:76.4%;height:33px;border:1px solid #ccc;margin-left:1%;margin-top:10px;margin-bottom:2px;padding-left: 10px;}
+    input[type=submit]{width:17%;height:34px}
+    .all-list{width:92%;margin:0 4%}
+    .all-list li{height:2rem;line-height:2rem;padding:0 10px;list-style:none;margin:.4rem 0;background:#eee;border-radius:4px}
+    .all-list li i{font-size:12px;font-style:normal;color:#999}
+
+</style>
+<body>
+<div class="header">愿望清单</div>
+<form action="insert.php" method="post">
+    <input type="text" placeholder="请输入项目" name="title"/>
+    <input type="submit" />
+</form>
+<div class="all-list" id="list">
+</div>
+<div id="dv"></div>
+</body>
+<script>
+    $(function(){
+        //显示
+            $.ajax({
+                type: "get",
+                url: "test.php",
+                dataType: "json",
+                success: function (data) {
+                    var myjson=eval(data);
+                    var str="";
+                    for(var i=0;i<myjson.length;i++){
+                        str +=" <ul>";
+                        str +="<li>"+(i+1)+"."+myjson[i].title+"<i>";
+                        str +="&nbsp;&nbsp;添加时间："+myjson[i].time+"</i></li>";
+                        str +="</ul>";
+                    }
+                    $("#list").append(str);
+                }
+            });
+
+    })
+</script>
+</html>
