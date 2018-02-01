@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>愿望清单</title>
-    <script src="jquery-2.1.4.js"></script>
+    <script src="js/jquery-2.1.4.js"></script>
 </head>
 <style>
     *{margin:0;padding:0}
@@ -34,7 +34,7 @@
         //查看
             $.ajax({
                 type: "get",
-                url: "test.php",
+                url: "server/test.php",
                 dataType: "json",
                 success: function (data) {
                     var myjson=eval(data);
@@ -49,14 +49,14 @@
         //插入
         $("#btn-insert").click(function(){
             var title=$("#title").val();
-            if(title!=""){ $.post("insert.php",{title:title},function(){alert("插入成功")})}
+            if(title!=""){ $.post("server/insert.php",{title:title},function(){alert("插入成功")})}
         });
         $(".all-list").on("click",'.load',function(){
             var a = window.confirm("确定要删除本条清单吗？");
             if(a==true)
             {
                 var id=$(this).data().id;
-                $.post("delete.php",{id:id},function(){alert("删除成功");refresh();})
+                $.post("server/delete.php",{id:id},function(){alert("删除成功");refresh();})
             }
         });
 
