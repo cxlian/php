@@ -49,7 +49,7 @@
         //插入
         $("#btn-insert").click(function(){
             var title=$("#title").val();
-            $.post("insert.php",{title:title},function(){alert("插入成功")})
+            if(title!=""){ $.post("insert.php",{title:title},function(){alert("插入成功")})}
         });
         $(".all-list").on("click",'.load',function(){
             var a = window.confirm("确定要删除本条清单吗？");
