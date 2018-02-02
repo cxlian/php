@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>愿望清单</title>
+    <link rel="stylesheet" href="css/public.css"/>
     <script src="js/jquery-2.1.4.js"></script>
+    <script src="js/jquery.cookie.js"></script>
 </head>
 <style>
-    *{margin:0;padding:0}
-    .header{height:40px;line-height:40px;text-align:center;background-color:#a9a9a9;color:#fff;font-size:16px;}
     input[type=text]{width:76.4%;height:33px;border:1px solid #ccc;margin-left:1%;margin-top:10px;margin-bottom:2px;padding-left: 10px;}
     button{width:17%;height:34px}
     .all-list{width:92%;margin:0 4%}
@@ -16,7 +16,7 @@
     .all-list li i{font-size:12px;font-style:normal;color:#999}
     .all-list li a{font-size: 12px;}
 </style>
-<body>
+<body style="display: none;">
 <div class="header">愿望清单</div>
 
 <form>
@@ -28,8 +28,14 @@
 </body>
 <script>
     $(function(){
+        if(!$.cookie("cookie_user")){
+            window.location.href = "login.html";
+        }else{
+            $("body").show();
+        }
+        //强制刷新
         function refresh(){
-            window.location.reload();//强制刷新
+            window.location.reload();
         }
         //查看
             $.ajax({
@@ -61,5 +67,6 @@
         });
 
     });
+
 </script>
 </html>
