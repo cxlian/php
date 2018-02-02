@@ -17,7 +17,7 @@
     .all-list li a{font-size: 12px;}
 </style>
 <body style="display: none;">
-<div class="header">愿望清单</div>
+<div class="header">愿望清单 <a href="javascript:;" class="login_out">注销</a></div>
 
 <form>
     <input id="title" type="text" placeholder="请输入项目" name="title"/>
@@ -27,46 +27,55 @@
 </div>
 </body>
 <script>
-    $(function(){
-        if(!$.cookie("cookie_user")){
+    $(function () {
+        if ($.cookie("cookie_user")=="null") {
             window.location.href = "login.html";
-        }else{
+        } else {
             $("body").show();
         }
         //强制刷新
-        function refresh(){
+        function refresh() {
             window.location.reload();
         }
+
         //查看
-            $.ajax({
-                type: "get",
-                url: "server/test.php",
-                dataType: "json",
-                success: function (data) {
-                    var myjson=eval(data);
-                    var str="";
-                    for(var i=0;i<myjson.length;i++){
-                        str +="<li>"+(myjson.length-i)+"."+myjson[i].title+"<i>";
-                        str +="&nbsp;&nbsp;添加时间："+myjson[i].time+"&nbsp;&nbsp;&nbsp;&nbsp;</i><a class='load' href='javascript:;' data-id="+myjson[i].id+"><b></b>删除</a></li>";
-                    }
-                    $("#list ul").append(str);
+        $.ajax({
+            type: "get",
+            url: "server/test.php",
+            dataType: "json",
+            success: function (data) {
+                var myjson = eval(data);
+                var str = "";
+                for (var i = 0; i < myjson.length; i++) {
+                    str += "<li>" + (myjson.length - i) + "." + myjson[i].title + "<i>";
+                    str += "&nbsp;&nbsp;添加时间：" + myjson[i].time + "&nbsp;&nbsp;&nbsp;&nbsp;</i><a class='load' href='javascript:;' data-id=" + myjson[i].id + "><b></b>删除</a></li>";
                 }
-            });
-        //插入
-        $("#btn-insert").click(function(){
-            var title=$("#title").val();
-            if(title!=""){ $.post("server/insert.php",{title:title},function(){alert("插入成功")})}
-        });
-        $(".all-list").on("click",'.load',function(){
-            var a = window.confirm("确定要删除本条清单吗？");
-            if(a==true)
-            {
-                var id=$(this).data().id;
-                $.post("server/delete.php",{id:id},function(){alert("删除成功");refresh();})
+                $("#list ul").append(str);
             }
         });
-
+        //插入
+        $("#btn-insert").click(function () {
+            var title = $("#title").val();
+            if (title != "") {
+                $.post("server/insert.php", {title: title}, function () {
+                    alert("插入成功")
+                })
+            }
+        });
+        $(".all-list").on("click", '.load', function () {
+            var a = window.confirm("确定要删除本条清单吗？");
+            if (a == true) {
+                var id = $(this).data().id;
+                $.post("server/delete.php", {id: id}, function () {
+                    alert("删除成功");
+                    refresh();
+                })
+            }
+        });
+        $(".login_out").click(function () {
+            $.cookie("cookie_user",null);
+            refresh();
+        });
     });
-
 </script>
 </html>
