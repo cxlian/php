@@ -29,7 +29,7 @@
 </body>
 <script>
     $(function () {
-        if ($.cookie("cookie_user")=="null") {
+        if ($.cookie("cookie_user")=="null" || !$.cookie("cookie_user")) {
             window.location.href = "login.html";
         } else {
             $("body").show();
